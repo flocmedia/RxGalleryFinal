@@ -370,17 +370,20 @@ public class MediaUtils {
         BucketBean allMediaBucket = new BucketBean();
         allMediaBucket.setBucketId(String.valueOf(Integer.MIN_VALUE));
         Uri uri;
+        String dateAddedCondition;
         if (isImage) {
             allMediaBucket.setBucketName(context.getString(R.string.gallery_all_image));
             uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+            dateAddedCondition = MediaStore.Images.Media.DATE_ADDED;
         } else {
             allMediaBucket.setBucketName(context.getString(R.string.gallery_all_video));
             uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+            dateAddedCondition = MediaStore.Video.Media.DATE_ADDED;
         }
         bucketBeenList.add(allMediaBucket);
         Cursor cursor = null;
         try {
-            cursor = contentResolver.query(uri, projection, null, null, MediaStore.Video.Media.DATE_ADDED + " DESC");
+            cursor = contentResolver.query(uri, projection, null, null, dateAddedCondition + " DESC");
         } catch (Exception e) {
             Logger.e(e);
         }
